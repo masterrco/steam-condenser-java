@@ -9,8 +9,8 @@ package com.github.koraktor.steamcondenser.servers.sockets;
 
 import java.net.InetAddress;
 import java.util.concurrent.TimeoutException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 import com.github.koraktor.steamcondenser.exceptions.PacketFormatException;
 import com.github.koraktor.steamcondenser.exceptions.SteamCondenserException;
@@ -23,7 +23,7 @@ import com.github.koraktor.steamcondenser.servers.packets.SteamPacket;
  */
 public class MasterServerSocket extends QuerySocket {
 
-    protected static final Logger LOG = LoggerFactory.getLogger(MasterServerSocket.class);
+    //protected static final Logger LOG = LoggerFactory.getLogger(MasterServerSocket.class);
 
     /**
      * Creates a new socket to communicate with the server on the given IP
@@ -57,7 +57,7 @@ public class MasterServerSocket extends QuerySocket {
 
         SteamPacket packet = this.getPacketFromData();
 
-        LOG.info("Received reply of type \"" + packet.getClass().getSimpleName() + "\"");
+        //LOG.info("Received reply of type \"" + packet.getClass().getSimpleName() + "\"");
 
         return packet;
     }

@@ -8,6 +8,7 @@
 package com.github.koraktor.steamcondenser.servers;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.concurrent.TimeoutException;
 
 import com.github.koraktor.steamcondenser.exceptions.RCONNoAuthException;
@@ -30,6 +31,8 @@ public class GoldSrcServer extends GameServer {
     private boolean isHLTV;
 
     protected String rconPassword;
+    protected boolean rconAuthenticated;
+    protected int rconRequestId;
 
     /**
      * Returns a master server instance for the default master server for
@@ -38,7 +41,7 @@ public class GoldSrcServer extends GameServer {
      * @return The GoldSrc master server
      * @throws SteamCondenserException if initializing the socket fails
      */
-    public static MasterServer getMaster() throws SteamCondenserException {
+    public static MasterServer getMaster() throws SteamCondenserException, UnknownHostException {
         return new MasterServer(MasterServer.GOLDSRC_MASTER_SERVER);
     }
 
@@ -50,7 +53,7 @@ public class GoldSrcServer extends GameServer {
      *        'server.example.com:27016' it will override the second argument.
      * @throws SteamCondenserException if initializing the socket fails
      */
-    public GoldSrcServer(String address) throws SteamCondenserException {
+    public GoldSrcServer(String address) throws SteamCondenserException, UnknownHostException {
         this(address, 27015, false);
     }
 
@@ -64,7 +67,7 @@ public class GoldSrcServer extends GameServer {
      * @throws SteamCondenserException if initializing the socket fails
      */
     public GoldSrcServer(String address, Integer port)
-            throws SteamCondenserException {
+            throws SteamCondenserException, UnknownHostException {
         this(address, port, false);
     }
 
@@ -80,7 +83,7 @@ public class GoldSrcServer extends GameServer {
      * @throws SteamCondenserException if initializing the socket fails
      */
     public GoldSrcServer(String address, Integer port, boolean isHLTV)
-            throws SteamCondenserException {
+            throws SteamCondenserException, UnknownHostException {
         super(address, port);
 
         this.isHLTV = isHLTV;
@@ -94,7 +97,7 @@ public class GoldSrcServer extends GameServer {
      *        'server.example.com:27016' it will override the second argument.
      * @throws SteamCondenserException if initializing the socket fails
      */
-    public GoldSrcServer(InetAddress address) throws SteamCondenserException {
+    public GoldSrcServer(InetAddress address) throws SteamCondenserException, UnknownHostException {
         this(address, 27015, false);
     }
 
@@ -108,7 +111,7 @@ public class GoldSrcServer extends GameServer {
      * @throws SteamCondenserException if initializing the socket fails
      */
     public GoldSrcServer(InetAddress address, Integer port)
-            throws SteamCondenserException {
+            throws SteamCondenserException, UnknownHostException {
         this(address, port, false);
     }
 
@@ -124,7 +127,7 @@ public class GoldSrcServer extends GameServer {
      * @throws SteamCondenserException if initializing the socket fails
      */
     public GoldSrcServer(InetAddress address, Integer port, boolean isHLTV)
-            throws SteamCondenserException {
+            throws SteamCondenserException, UnknownHostException {
         super(address, port);
 
         this.isHLTV = isHLTV;

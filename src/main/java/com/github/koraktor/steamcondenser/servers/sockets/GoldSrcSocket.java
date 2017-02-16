@@ -10,8 +10,8 @@ package com.github.koraktor.steamcondenser.servers.sockets;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 import com.github.koraktor.steamcondenser.exceptions.RCONBanException;
 import com.github.koraktor.steamcondenser.exceptions.RCONNoAuthException;
@@ -29,7 +29,7 @@ import com.github.koraktor.steamcondenser.servers.packets.rcon.RCONGoldSrcRespon
  */
 public class GoldSrcSocket extends QuerySocket {
 
-    protected static final Logger LOG = LoggerFactory.getLogger(GoldSrcSocket.class);
+    //protected static final Logger LOG = LoggerFactory.getLogger(GoldSrcSocket.class);
 
     protected boolean isHLTV;
     protected long rconChallenge = -1;
@@ -102,7 +102,7 @@ public class GoldSrcSocket extends QuerySocket {
                 splitPackets.ensureCapacity(packetCount);
                 splitPackets.add(packetNumber - 1, splitData);
 
-                LOG.info("Received packet #" + packetNumber + " of " + packetCount + " for request ID " + requestId + ".");
+                //LOG.info("Received packet #" + packetNumber + " of " + packetCount + " for request ID " + requestId + ".");
 
                 if(splitPackets.size() < packetCount) {
                     try {
@@ -120,7 +120,7 @@ public class GoldSrcSocket extends QuerySocket {
             packet = this.getPacketFromData();
         }
 
-        LOG.info("Received packet of type \"" + packet.getClass().getSimpleName() + "\"");
+        //LOG.info("Received packet of type \"" + packet.getClass().getSimpleName() + "\"");
 
         return packet;
     }

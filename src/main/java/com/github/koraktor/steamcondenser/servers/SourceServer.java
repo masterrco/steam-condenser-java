@@ -8,6 +8,7 @@
 package com.github.koraktor.steamcondenser.servers;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.TimeoutException;
@@ -40,6 +41,8 @@ import com.github.koraktor.steamcondenser.servers.sockets.SourceSocket;
 public class SourceServer extends GameServer {
 
     protected RCONSocket rconSocket;
+    protected boolean rconAuthenticated;
+    protected int rconRequestId;
 
     /**
      * Returns a master server instance for the default master server for
@@ -48,7 +51,7 @@ public class SourceServer extends GameServer {
      * @return The Source master server
      * @throws SteamCondenserException if initializing the socket fails
      */
-    public static MasterServer getMaster() throws SteamCondenserException {
+    public static MasterServer getMaster() throws SteamCondenserException, UnknownHostException {
         return new MasterServer(MasterServer.SOURCE_MASTER_SERVER);
     }
 
@@ -61,7 +64,7 @@ public class SourceServer extends GameServer {
      *        'server.example.com:27016' it will override the second argument.
      * @throws SteamCondenserException if initializing the socket fails
      */
-    public SourceServer(String address) throws SteamCondenserException {
+    public SourceServer(String address) throws SteamCondenserException, UnknownHostException {
         super(address, 27015);
     }
 
@@ -76,7 +79,7 @@ public class SourceServer extends GameServer {
      * @throws SteamCondenserException if initializing the socket fails
      */
     public SourceServer(String address, Integer port)
-            throws SteamCondenserException {
+            throws SteamCondenserException, UnknownHostException {
         super(address, port);
     }
 
@@ -89,7 +92,7 @@ public class SourceServer extends GameServer {
      *        'server.example.com:27016' it will override the second argument.
      * @throws SteamCondenserException if initializing the socket fails
      */
-    public SourceServer(InetAddress address) throws SteamCondenserException {
+    public SourceServer(InetAddress address) throws SteamCondenserException, UnknownHostException {
         super(address, 27015);
     }
 
@@ -104,7 +107,7 @@ public class SourceServer extends GameServer {
      * @throws SteamCondenserException if initializing the socket fails
      */
     public SourceServer(InetAddress address, Integer port)
-            throws SteamCondenserException {
+            throws SteamCondenserException, UnknownHostException {
         super(address, port);
     }
 
@@ -115,7 +118,6 @@ public class SourceServer extends GameServer {
      */
     public void disconnect() {
         super.disconnect();
-
         this.rconSocket.close();
     }
 

@@ -45,7 +45,7 @@ public abstract class Server {
      * @throws SteamCondenserException if an host name cannot be resolved
      */
     protected Server(Object address, Integer port)
-            throws SteamCondenserException {
+            throws SteamCondenserException, UnknownHostException {
         this.hostNames   = new ArrayList<String>();
         this.ipAddresses = new ArrayList<InetAddress>();
         this.ipIndex     = 0;
@@ -76,7 +76,10 @@ public abstract class Server {
         if(port == null) {
             throw new IllegalArgumentException("No port given");
         }
-
+        if(this.ipAddresses.isEmpty())
+        {
+            throw new UnknownHostException();
+        }
         this.ipAddress = this.ipAddresses.get(0);
         this.port = port;
 

@@ -10,8 +10,8 @@ package com.github.koraktor.steamcondenser.servers.sockets;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 import com.github.koraktor.steamcondenser.exceptions.SteamCondenserException;
 import com.github.koraktor.steamcondenser.servers.packets.SteamPacket;
@@ -25,7 +25,7 @@ import com.github.koraktor.steamcondenser.servers.packets.SteamPacketFactory;
  */
 public class SourceSocket extends QuerySocket {
 
-    protected static final Logger LOG = LoggerFactory.getLogger(SourceSocket.class);
+    //protected static final Logger LOG = LoggerFactory.getLogger(SourceSocket.class);
 
     /**
      * Creates a new socket to communicate with the server on the given IP
@@ -96,7 +96,7 @@ public class SourceSocket extends QuerySocket {
                     bytesRead = 0;
                 }
 
-                LOG.info("Received packet #" + packetNumber + " of " + packetCount + " for request ID " + requestId + ".");
+                //LOG.info("Received packet #" + packetNumber + " of " + packetCount + " for request ID " + requestId + ".");
             } while(bytesRead > 0 && this.packetIsSplit());
 
             if(isCompressed) {
@@ -111,9 +111,9 @@ public class SourceSocket extends QuerySocket {
         this.buffer.flip();
 
         if(isCompressed) {
-            LOG.info("Received compressed reply of type \"" + packet.getClass().getSimpleName() + "\"");
+           //LOG.info("Received compressed reply of type \"" + packet.getClass().getSimpleName() + "\"");
         } else {
-            LOG.info("Received reply of type \"" + packet.getClass().getSimpleName() + "\"");
+            //LOG.info("Received reply of type \"" + packet.getClass().getSimpleName() + "\"");
         }
 
         return packet;

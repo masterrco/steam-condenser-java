@@ -7,6 +7,7 @@
 
 package com.github.koraktor.steamcondenser.servers;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,8 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeoutException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 import com.github.koraktor.steamcondenser.exceptions.SteamCondenserException;
 import com.github.koraktor.steamcondenser.servers.packets.A2S_INFO_Packet;
@@ -44,13 +45,11 @@ public abstract class GameServer extends Server {
     protected int challengeNumber = 0xFFFFFFFF;
     protected int ping;
     protected HashMap<String, SteamPlayer> playerHash;
-    protected boolean rconAuthenticated;
-    protected int rconRequestId;
     protected HashMap<String, String> rulesHash;
     protected HashMap<String, Object> serverInfo;
     protected QuerySocket socket;
 
-    protected static final Logger LOG = LoggerFactory.getLogger(GameServer.class);
+    //protected static final Logger LOG = LoggerFactory.getLogger(GameServer.class);
 
     /**
      * Creates a new instance of a game server object
@@ -62,10 +61,10 @@ public abstract class GameServer extends Server {
      * @throws SteamCondenserException if initializing the socket fails
      */
     protected GameServer(Object address, Integer port)
-            throws SteamCondenserException {
+            throws SteamCondenserException , UnknownHostException {
         super(address, port);
 
-        this.rconAuthenticated = false;
+      
     }
 
     public void disconnect() {
@@ -344,7 +343,7 @@ public abstract class GameServer extends Server {
         }
 
         if(!expectedResponse.isInstance(responsePacket)) {
-            LOG.warn("Expected " + expectedResponse + ", got " + responsePacket.getClass() + ".");
+            //LOG.warn("Expected " + expectedResponse + ", got " + responsePacket.getClass() + ".");
             if(repeatOnFailure) {
                 this.handleResponseForRequest(requestType, false);
             }
@@ -367,40 +366,6 @@ public abstract class GameServer extends Server {
         this.updateChallengeNumber();
     }
 
-    /**
-     * Returns whether the RCON connection to this server is already
-     * authenticated
-     *
-     * @return <code>true</code> if the RCON connection is authenticated
-     * @see #rconAuth
-     */
-    public boolean isRconAuthenticated() {
-        return this.rconAuthenticated;
-    }
-
-    /**
-     * Authenticates with the server for RCON communication
-     *
-     * @param password The RCON password of the server
-     * @return <code>true</code>, if the authentication was successful
-     * @see #rconExec
-     * @throws SteamCondenserException if the request fails
-     * @throws TimeoutException if the request times out
-     */
-    abstract public boolean rconAuth(String password)
-            throws SteamCondenserException, TimeoutException;
-
-    /**
-     * Remotely executes a command on the server via RCON
-     *
-     * @param command The command to execute on the server via RCON
-     * @return The output of the executed command
-     * @see #rconAuth
-     * @throws SteamCondenserException if the request fails
-     * @throws TimeoutException if the request times out
-     */
-    abstract public String rconExec(String command)
-            throws SteamCondenserException, TimeoutException;
 
     /**
      * Sends a request packet to the server
@@ -488,6 +453,7 @@ public abstract class GameServer extends Server {
             throws SteamCondenserException, TimeoutException {
         this.sendRequest(new A2S_INFO_Packet());
         long startTime = System.currentTimeMillis();
+        //System.out.println(startTime);
         this.getReply();
         long endTime = System.currentTimeMillis();
         this.ping = Long.valueOf(endTime - startTime).intValue();
@@ -526,32 +492,11 @@ public abstract class GameServer extends Server {
      * @throws SteamCondenserException if the request fails
      * @throws TimeoutException if the request times out
      */
-    public void updatePlayers(String rconPassword)
+    public void updatePlayers(String Password)
             throws SteamCondenserException, TimeoutException {
-        this.handleResponseForRequest(GameServer.REQUEST_PLAYER);
-
-        if(!this.rconAuthenticated) {
-            if(rconPassword == null) {
+        		
+    			this.handleResponseForRequest(GameServer.REQUEST_PLAYER);
                 return;
-            }
-            this.rconAuth(rconPassword);
-        }
-
-        List<String> players = new ArrayList<String>();
-        for(String line : Arrays.asList(this.rconExec("status").split("\n"))) {
-            if(line.startsWith("#") && !line.equals("#end")) {
-                players.add(line.substring(1).trim());
-            }
-        }
-        List<String> attributes = getPlayerStatusAttributes(players.remove(0));
-
-        for(String player : players) {
-            Map<String, String> playerData = splitPlayerStatus(attributes, player);
-            String playerName = playerData.get("name");
-            if(this.playerHash.containsKey(playerName)) {
-                this.playerHash.get(playerName).addInformation(playerData);
-            }
-        }
     }
 
     /**

@@ -9,13 +9,14 @@ package com.github.koraktor.steamcondenser.servers;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.UnknownHostException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.TimeoutException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 import com.github.koraktor.steamcondenser.exceptions.SteamCondenserException;
 import com.github.koraktor.steamcondenser.servers.packets.A2M_GET_SERVERS_BATCH2_Paket;
@@ -34,7 +35,7 @@ import com.github.koraktor.steamcondenser.servers.sockets.MasterServerSocket;
  */
 public class MasterServer extends Server {
 
-    protected static final Logger LOG = LoggerFactory.getLogger(MasterServer.class);
+    //protected static final Logger LOG = LoggerFactory.getLogger(MasterServer.class);
 
     /**
      * The master server address to query for GoldSrc game servers
@@ -113,7 +114,7 @@ public class MasterServer extends Server {
      *        'server.example.com:27016' it will override the second argument.
      * @throws SteamCondenserException if initializing the socket fails
      */
-    public MasterServer(String address) throws SteamCondenserException {
+    public MasterServer(String address) throws SteamCondenserException, UnknownHostException {
         super(address, null);
     }
 
@@ -127,7 +128,7 @@ public class MasterServer extends Server {
      * @throws SteamCondenserException if initializing the socket fails
      */
     public MasterServer(String address, Integer port)
-            throws SteamCondenserException {
+            throws SteamCondenserException, UnknownHostException {
         super(address, port);
     }
 
@@ -139,7 +140,7 @@ public class MasterServer extends Server {
      *        'server.example.com:27016' it will override the second argument.
      * @throws SteamCondenserException if initializing the socket fails
      */
-    public MasterServer(InetAddress address) throws SteamCondenserException {
+    public MasterServer(InetAddress address) throws SteamCondenserException, UnknownHostException {
         super(address, null);
     }
 
@@ -153,7 +154,7 @@ public class MasterServer extends Server {
      * @throws SteamCondenserException if initializing the socket fails
      */
     public MasterServer(InetAddress address, Integer port)
-            throws SteamCondenserException {
+            throws SteamCondenserException, UnknownHostException {
         super(address, port);
     }
 
@@ -270,7 +271,7 @@ public class MasterServer extends Server {
                         if(failCount == retries) {
                             throw e;
                         }
-                        LOG.info("Request to master server " + this.ipAddress + " timed out, retrying...");
+                        //LOG.info("Request to master server " + this.ipAddress + " timed out, retrying...");
                     }
                 } while(!finished);
                 break;
@@ -280,7 +281,7 @@ public class MasterServer extends Server {
                 } else if(this.rotateIp()) {
                     throw e;
                 }
-                LOG.info("Request to master server failed, retrying " + this.ipAddress + "...");
+                //LOG.info("Request to master server failed, retrying " + this.ipAddress + "...");
             }
         }
 
